@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nørrebro X KitKat MiniCup</title>
-<meta name="description" content="Live stilling og kampprogram – Nørrebro X KitKat MiniCup, U10, søndag 18/10">
+<title>Nørrebro KitKat Cup 2026</title>
+<meta name="description" content="Live stilling og kampprogram – Nørrebro KitKat Cup 2026, U10, søndag 18/10">
 <meta name="theme-color" content="#c8102e">
 <style>
+  /* ===== KLUBFARVER – ret kun disse fire linjer for at skifte farver ===== */
   :root {
-    --red: #c8102e;
-    --red-dark: #9e0b23;
-    --red-soft: #fde8eb;
+    --club: #c8102e;        /* hovedfarve (header, knapper) */
+    --club-dark: #8f0a20;   /* mørk variant (links, markeringer) */
+    --club-soft: #fde8eb;   /* lys variant (baggrund for valgt hold) */
+    --on-club: #ffffff;     /* tekstfarve oven på hovedfarven */
+  /* ======================================================================= */
+    --choc: #4a2a16;
+    --choc-light: #8a5a35;
+    --wrapper: #e1001a;
     --ink: #111;
     --muted: #555;
     --line: #d6d6d6;
@@ -27,14 +33,31 @@
     color: var(--ink);
     font: 17px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   }
-  a { color: var(--red-dark); }
+  a { color: var(--club-dark); }
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 12px; }
 
-  header.top { background: var(--red); color: #fff; padding: 18px 0 14px; border-bottom: 6px solid #fff; box-shadow: 0 6px 0 var(--red); }
-  header.top h1 { margin: 0; font-size: 1.6rem; line-height: 1.15; letter-spacing: -0.01em; }
+  header.top { background: var(--club); color: var(--on-club); padding: 18px 0 14px; border-bottom: 6px solid #fff; box-shadow: 0 6px 0 var(--club); }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .titles { flex: 1; min-width: 0; }
+  .brand .logo { width: 56px; height: 56px; object-fit: contain; flex: none; background: #fff; border-radius: 50%; padding: 4px; }
+  header.top h1 { margin: 0; font-size: 1.7rem; line-height: 1.1; letter-spacing: -0.01em; }
+  header.top h1 .year { display: inline-block; font-size: 0.7em; vertical-align: 0.15em; background: var(--on-club); color: var(--club); padding: 1px 7px; border-radius: 6px; margin-left: 2px; }
+
+  /* Mikro-hilsen til sponsoren: en chokoladebar med fire stykker – det ene er knækket af */
+  .choc { position: relative; flex: none; display: flex; gap: 2px; padding: 0; margin-right: 10px; background: none; border: 0; cursor: pointer; transform: rotate(-9deg); filter: drop-shadow(0 2px 0 rgba(0,0,0,.3)); }
+  .choc i { display: block; width: 12px; height: 40px; border-radius: 3px; background: linear-gradient(90deg, var(--choc-light), #5d3820 55%, var(--choc)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+  .choc i:last-of-type { transform-origin: 0 100%; transform: translate(4px, -2px) rotate(14deg); transition: transform .25s cubic-bezier(.3,1.8,.5,1); }
+  .choc::after { content: ""; position: absolute; left: -2px; right: 12px; bottom: -2px; height: 46%; background: var(--wrapper); border-radius: 0 0 5px 5px; box-shadow: 0 0 0 2px #fff;
+    clip-path: polygon(0 18%, 12% 0, 24% 20%, 36% 2%, 48% 22%, 60% 0, 72% 18%, 84% 2%, 100% 16%, 100% 100%, 0 100%); }
+  .choc.snap i:last-of-type { transform: translate(8px, -8px) rotate(32deg); }
+  .choc .pop { position: absolute; top: -24px; right: -8px; background: #fff; color: var(--choc); font: 800 0.8rem/1 system-ui, sans-serif; padding: 4px 7px; border-radius: 8px; transform: rotate(9deg) scale(0); transition: transform .2s; white-space: nowrap; pointer-events: none; }
+  .choc.snap .pop { transform: rotate(9deg) scale(1); }
+  .choc-mini { display: inline-flex; gap: 1px; padding: 1px; background: var(--choc); border-radius: 2px; vertical-align: -2px; margin-right: 6px; }
+  .choc-mini b { width: 3px; height: 12px; background: var(--choc-light); border-radius: 1px; }
+  .choc-mini b:last-child { transform: rotate(18deg) translate(1px, -1px); }
   header.top .sub { margin: 6px 0 0; font-size: 1.05rem; font-weight: 600; }
   nav.jump { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-  nav.jump a { color: var(--red); background: #fff; text-decoration: none; font-weight: 700; padding: 6px 12px; border-radius: 999px; font-size: 0.95rem; }
+  nav.jump a { color: var(--club); background: #fff; text-decoration: none; font-weight: 700; padding: 6px 12px; border-radius: 999px; font-size: 0.95rem; }
 
   .status { margin: 18px 0 0; font-size: 0.95rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
   .warn { display: none; margin: 10px 0 0; padding: 8px 12px; border-left: 4px solid var(--now-line); background: #fff8e1; font-size: 0.92rem; color: #5a4300; }
@@ -54,7 +77,7 @@
   .standings td.team { font-weight: 600; overflow-wrap: anywhere; }
   .standings td.pos { font-weight: 700; width: 2em; }
   .standings td.pts { font-weight: 800; font-size: 1.1rem; }
-  .standings tr.sel td { background: var(--red-soft); }
+  .standings tr.sel td { background: var(--club-soft); }
   .standings .wide, .standings .lbl-long { display: none; }
   @media (min-width: 600px) {
     .standings .wide { display: table-cell; }
@@ -72,7 +95,7 @@
   .slot { border: 2px solid var(--line); border-radius: 12px; margin: 0 0 12px; overflow: hidden; }
   .slot-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 12px; background: var(--panel); font-weight: 800; font-size: 1.05rem; }
   .badge { font-size: 0.78rem; font-weight: 800; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
-  .badge.now { background: var(--red); color: #fff; }
+  .badge.now { background: var(--club); color: #fff; }
   .badge.next { background: var(--ink); color: #fff; }
   .badge.done { background: #e2e2e2; color: #333; }
   .slot.now { border-color: var(--now-line); box-shadow: 0 0 0 3px var(--now); }
@@ -81,26 +104,26 @@
   .match .pitch { grid-column: 1 / -1; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: -4px; }
   .match .home { text-align: right; font-weight: 600; overflow-wrap: anywhere; }
   .match .away { text-align: left; font-weight: 600; overflow-wrap: anywhere; }
-  .match .score { min-width: 4.2em; text-align: center; font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; background: var(--ink); color: #fff; border-radius: 8px; padding: 2px 8px; }
-  .match .score.empty { background: var(--panel); color: var(--muted); }
+  .match .score { min-width: 4.2em; text-align: center; font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; background: var(--choc); color: #fff; border-radius: 6px; padding: 2px 8px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.12); }
+  .match .score.empty { background: var(--panel); color: var(--muted); box-shadow: none; }
   .match .winner { font-weight: 800; }
-  .match .sel { color: var(--red-dark); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .match .sel { color: var(--club-dark); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .rest { padding: 8px 12px; border-top: 1px dashed var(--line); font-size: 0.92rem; color: var(--muted); }
-  .rest.sel { color: var(--red-dark); font-weight: 700; background: var(--red-soft); }
+  .rest.sel { color: var(--club-dark); font-weight: 700; background: var(--club-soft); }
   .empty-note { padding: 14px; background: var(--panel); border-radius: 12px; }
 
   /* QR */
   .qr-box { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
   .qr { background: #fff; padding: 10px; border: 2px solid var(--line); border-radius: 12px; width: 200px; }
   .qr img, .qr canvas { display: block; width: 100% !important; height: auto !important; }
-  .btn { display: inline-block; background: var(--red); color: #fff; font-weight: 700; text-decoration: none; padding: 10px 16px; border-radius: 10px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
+  .btn { display: inline-block; background: var(--club); color: #fff; font-weight: 700; text-decoration: none; padding: 10px 16px; border-radius: 10px; border: 0; font: inherit; font-weight: 700; cursor: pointer; }
   footer { margin: 30px 0 40px; font-size: 0.85rem; color: var(--muted); }
 
   /* Printvenlig QR-plakat (?print=qr) */
   #poster { display: none; text-align: center; padding: 24px 16px; }
   body.poster #poster { display: block; }
   body.poster #app { display: none; }
-  #poster h1 { color: var(--red); font-size: clamp(2rem, 7vw, 3.4rem); margin: 0 0 6px; line-height: 1.1; }
+  #poster h1 { color: var(--club); font-size: clamp(2rem, 7vw, 3.4rem); margin: 0 0 6px; line-height: 1.1; }
   #poster .date { font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 700; margin: 0 0 18px; }
   #poster .qr { width: min(80vw, 62vh, 560px); margin: 0 auto; border: 0; padding: 0; }
   #poster .cta { font-size: clamp(1.3rem, 4.5vw, 2rem); font-weight: 800; margin: 18px 0 6px; }
@@ -115,7 +138,7 @@
     #poster h1 { font-size: 34pt; }
     #poster .date { font-size: 20pt; }
     #poster .cta { font-size: 22pt; }
-    header.top, .badge.now, .match .score { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    header.top, .badge.now, .match .score, .choc, .choc-mini { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
@@ -124,8 +147,15 @@
 <div id="app">
   <header class="top">
     <div class="wrap">
-      <h1>Nørrebro X KitKat MiniCup</h1>
-      <p class="sub">U10 · Søndag 18. oktober</p>
+      <div class="brand">
+        <!-- Logo: læg en fil med navnet logo.png i repositoryet, så vises den her automatisk -->
+        <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+        <div class="titles">
+          <h1>Nørrebro KitKat Cup <span class="year">2026</span></h1>
+          <p class="sub">U10 · Søndag 18. oktober</p>
+        </div>
+        <button class="choc" id="choc" type="button" aria-label="Knæk et stykke chokolade" title="Tag en pause"><i></i><i></i><i></i><i></i><span class="pop">Knæk!</span></button>
+      </div>
       <nav class="jump">
         <a href="#stilling">Stilling</a>
         <a href="#kampe">Kampprogram</a>
@@ -185,12 +215,13 @@
       </div>
     </section>
 
-    <footer>Siden opdaterer automatisk hvert 30. sekund.</footer>
+    <footer>Siden opdaterer automatisk hvert 30. sekund. · Tak til KitKat for at sponsorere turneringen – husk at holde pause.</footer>
   </main>
 </div>
 
 <div id="poster">
-  <h1>Nørrebro X KitKat MiniCup</h1>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()" style="width:120px;height:120px;object-fit:contain;margin:0 auto 10px;display:block">
+  <h1>Nørrebro KitKat Cup 2026</h1>
   <p class="date">U10 · Søndag 18. oktober</p>
   <div class="qr" id="qr-big"></div>
   <p class="cta">Scan og følg stilling og resultater live</p>
@@ -244,7 +275,7 @@ const CONFIG = {
 
   if (params.get('print') === 'qr') {
     document.body.classList.add('poster');
-    document.title = 'QR-plakat – Nørrebro X KitKat MiniCup';
+    document.title = 'QR-plakat – Nørrebro KitKat Cup 2026';
     $('poster-url').textContent = CONFIG.SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
     drawQR($('qr-big'), 1024);
     return; // plakaten skal ikke hente data
@@ -379,8 +410,8 @@ const CONFIG = {
       }).join('');
 
       let rest = '';
-      if (sitsOut) rest = '<div class="rest sel">' + esc(teamName(byId, fid)) + ' sidder over i dette tidsrum</div>';
-      else if (fid === null && s.sittingOut.length) rest = '<div class="rest">Sidder over: ' + s.sittingOut.map((id) => esc(teamName(byId, id))).join(', ') + '</div>';
+      if (sitsOut) rest = '<div class="rest sel">' + esc(teamName(byId, fid)) + ' sidder over – tid til en pause</div>';
+      else if (fid === null && s.sittingOut.length) rest = '<div class="rest"><span class="choc-mini" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Sidder over: ' + s.sittingOut.map((id) => esc(teamName(byId, id))).join(', ') + '</div>';
 
       return '<div class="slot' + (isNow ? ' now' : '') + '"' + (isNow ? ' id="nu"' : '') + '>' +
         '<div class="slot-head"><span>' + esc(s.label) + '</span>' + badge + '</div>' +
@@ -402,6 +433,13 @@ const CONFIG = {
     renderStandings(rows);
     renderSchedule(Sheet.groupSlots(data.matches, data.teams), byId);
   }
+
+  $('choc').addEventListener('click', (e) => {
+    const c = e.currentTarget;
+    c.classList.add('snap');
+    clearTimeout(c._t);
+    c._t = setTimeout(() => c.classList.remove('snap'), 1200);
+  });
 
   $('team-filter').addEventListener('change', (e) => {
     filterId = e.target.value;

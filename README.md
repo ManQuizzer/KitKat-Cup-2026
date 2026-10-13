@@ -1,4 +1,4 @@
-# Nørrebro X KitKat MiniCup – live resultater
+# Nørrebro KitKat Cup 2026 – live resultater
 
 Live stilling og kampprogram til U10-turneringen søndag 18/10.
 
@@ -15,6 +15,11 @@ Live stilling og kampprogram til U10-turneringen søndag 18/10.
 | `sheet.js` | Læser CSV fra Google Sheets og tolererer rod (mellemrum, tomme rækker, tal som tekst). |
 | `data/Hold.csv`, `data/Kampe.csv` | Filerne der importeres i Google Sheets. Bruges også som demo-data, indtil `SHEET_ID` er sat. |
 | `tests/` | Automatiske tests. |
+
+## Farver og logo
+
+- Farverne rettes øverst i `index.html` i blokken "KLUBFARVER" (fire linjer).
+- Logo: læg en fil med navnet `logo.png` i roden af repositoryet, så vises den i toppen og på QR-plakaten. Uden filen vises intet logo.
 
 ## Sådan bruges arket på dagen
 
