@@ -31,12 +31,10 @@ Live stilling og kampprogram til U10-turneringen søndag 18/10.
 
 Sejr 3, uafgjort 1, nederlag 0. Ved pointlighed:
 
-1. Indbyrdes kampe (minitabel med kun de spillede kampe mellem de pointlige hold). Adskiller minitabellen kun nogle af holdene, vurderes de resterende lige hold igen fra trin 1 indbyrdes mellem sig.
-2. Størst målforskel i alle kampe.
-3. Flest scorede mål i alle kampe.
+1. Størst målforskel i alle kampe.
+2. Flest scorede mål i alle kampe.
+3. Står holdene fortsat lige: indbyrdes kampe (minitabel med kun de spillede kampe mellem de hold, der stadig står lige). Adskiller minitabellen kun nogle af holdene, vurderes de resterende lige hold igen fra trin 1.
 4. Delt placering (samme nummer), sorteret alfabetisk.
-
-Bemærk: Hvis målforskel eller scorede mål kun adskiller nogle af holdene, går de resterende videre til næste trin (ikke tilbage til indbyrdes kampe).
 
 ## Nyttige adresser
 

@@ -1,16 +1,17 @@
 /*
- * ranking.js – beregner stillingen for Nørrebro X KitKat MiniCup.
+ * ranking.js – beregner stillingen for Nørrebro KitKat Cup 2026.
  *
  * Ren funktion uden sideeffekter: samme input giver altid samme output.
  * Virker både i browseren (window.Ranking) og i Node (require('./ranking.js')).
  *
  * Rangering:
  *   Sejr 3 point, uafgjort 1, nederlag 0. Ved pointlighed:
- *   a) Indbyrdes kampe (minitabel med kun spillede kampe mellem de pointlige hold).
- *      Adskiller minitabellen kun nogle af holdene, vurderes de resterende lige
- *      hold igen fra trin a) indbyrdes mellem sig.
- *   b) Størst målforskel i alle kampe.
- *   c) Flest scorede mål i alle kampe.
+ *   a) Størst målforskel i alle kampe.
+ *   b) Flest scorede mål i alle kampe.
+ *   c) Står holdene fortsat lige: indbyrdes kampe (minitabel med kun de
+ *      spillede kampe mellem de hold, der stadig står lige). Adskiller
+ *      minitabellen kun nogle af holdene, vurderes de resterende lige hold
+ *      igen fra trin a).
  *   d) Delt placering (samme placeringsnummer), sorteret alfabetisk.
  */
 (function (root) {
@@ -72,25 +73,29 @@
    */
   function resolveTie(group, played) {
     if (group.length === 1) return [group];
+    var result = [];
+    // a) Målforskel i alle kampe, b) scorede mål i alle kampe
+    splitBy(group, function (t) { return t.goalDiff; }).forEach(function (byGd) {
+      splitBy(byGd, function (t) { return t.goalsFor; }).forEach(function (tied) {
+        result = result.concat(resolveHeadToHead(tied, played));
+      });
+    });
+    return result;
+  }
 
-    // a) Indbyrdes kampe
-    var pts = miniPoints(group, played);
-    var byMini = splitBy(group, function (t) { return pts[t.id]; });
+  /** c) Indbyrdes kampe mellem hold med samme point, målforskel og scorede mål. */
+  function resolveHeadToHead(tied, played) {
+    if (tied.length === 1) return [tied];
+    var pts = miniPoints(tied, played);
+    var byMini = splitBy(tied, function (t) { return pts[t.id]; });
     if (byMini.length > 1) {
       // Minitabellen adskilte (nogle af) holdene: hver restgruppe vurderes forfra fra a)
       var tiers = [];
       byMini.forEach(function (sub) { tiers = tiers.concat(resolveTie(sub, played)); });
       return tiers;
     }
-
-    // b) Målforskel i alle kampe, c) scorede mål i alle kampe, d) delt + alfabetisk
-    var result = [];
-    splitBy(group, function (t) { return t.goalDiff; }).forEach(function (byGd) {
-      splitBy(byGd, function (t) { return t.goalsFor; }).forEach(function (byGf) {
-        result.push(byGf.slice().sort(compareNames));
-      });
-    });
-    return result;
+    // d) Delt placering, alfabetisk
+    return [tied.slice().sort(compareNames)];
   }
 
   /**

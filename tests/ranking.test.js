@@ -18,19 +18,29 @@ test('sejr 3, uafgjort 1, nederlag 0 – flest point øverst', () => {
   ]);
 });
 
-test('to hold på lige point afgøres indbyrdes (selv med dårligere målforskel)', () => {
+test('to hold på lige point: målforskel går forud for indbyrdes kamp', () => {
   const rows = computeStandings(T('A', 'B', 'C', 'D'), [
     M(1, 2, 1, 0), // A slår B
     M(2, 3, 9, 0), // B slår C stort
     M(4, 1, 1, 0), // D slår A
     M(4, 3, 1, 0), // D slår C
   ]);
-  // A og B har 3 point. B har klart bedst målforskel, men A vandt indbyrdes.
-  assert.deepEqual(summary(rows), [[1, 'D'], [2, 'A'], [3, 'B'], [4, 'C']]);
-  assert.ok(rows[2].goalDiff > rows[1].goalDiff);
+  // A og B har 3 point. A vandt indbyrdes, men B har bedre målforskel (+8 mod 0).
+  assert.deepEqual(summary(rows), [[1, 'D'], [2, 'B'], [3, 'A'], [4, 'C']]);
 });
 
-test('to hold lige og uafgjort indbyrdes → målforskel i alle kampe', () => {
+test('lige point, målforskel og scorede mål → indbyrdes kamp afgør', () => {
+  const rows = computeStandings(T('A', 'B', 'C', 'D'), [
+    M(1, 2, 1, 0), // A slår B
+    M(3, 1, 1, 0), // C slår A  → A: 3 point, 1–1
+    M(2, 4, 1, 0), // B slår D  → B: 3 point, 1–1
+  ]);
+  // C: 3 point, +1 → øverst. A og B helt ens i alle kampe; A vandt indbyrdes.
+  assert.deepEqual(summary(rows), [[1, 'C'], [2, 'A'], [3, 'B'], [4, 'D']]);
+  assert.deepEqual([rows[1].goalDiff, rows[1].goalsFor], [rows[2].goalDiff, rows[2].goalsFor]);
+});
+
+test('to hold lige på point → størst målforskel', () => {
   const rows = computeStandings(T('A', 'B', 'C'), [
     M(1, 2, 2, 2), // A–B uafgjort
     M(1, 3, 1, 0), // A +1 i alt
@@ -61,7 +71,7 @@ test('helt lige → delt placering med samme nummer, alfabetisk (æ/ø/å til si
   assert.equal(rows[2].shared, false);
 });
 
-test('tre hold på lige point i en cirkel → målforskel, derefter scorede mål', () => {
+test('tre hold på lige point i en cirkel → målforskel, derefter scorede mål (før indbyrdes)', () => {
   // A slår B, B slår C, C slår A: minitabellen giver alle 3 point → afgøres på mål.
   const rows = computeStandings(T('A', 'B', 'C'), [
     M(1, 2, 1, 0),
@@ -77,19 +87,19 @@ test('tre hold i en cirkel med helt ens tal → delt 1. plads, alfabetisk', () =
   assert.deepEqual(summary(rows), [[1, 'A'], [1, 'B'], [1, 'C']]);
 });
 
-test('tre lige hold: minitabel adskiller kun ét → de to andre vurderes forfra indbyrdes', () => {
-  // A, B og C får 3 point hver.
-  //   A–B 1–0, B–C 5–0, C–D 9–0  (A og C har ikke mødt hinanden)
-  // Minitabel (A,B,C): A 3, B 3, C 0 → C sidst af de tre.
-  // {A,B} vurderes igen fra a) kun indbyrdes: A slog B → A over B,
-  // selvom B har bedre målforskel (+4 mod +1).
-  const rows = computeStandings(T('A', 'B', 'C', 'D'), [
-    M(1, 2, 1, 0),
-    M(2, 3, 5, 0),
-    M(3, 4, 9, 0),
+test('tre helt lige hold: minitabel adskiller kun ét → de to andre vurderes forfra fra a)', () => {
+  // A, B og C: alle 3 point, målforskel 0 og 2 scorede mål.
+  //   Indbyrdes: A slår B, B slår C (A og C har ikke mødt hinanden)
+  //   Minitabel (A,B,C): A 3, B 3, C 0 → C sidst af de tre.
+  //   {A,B} vurderes forfra: samme målforskel og scorede mål → indbyrdes: A slog B.
+  const rows = computeStandings(T('A', 'B', 'C', 'D', 'E'), [
+    M(1, 2, 2, 0), // A–B 2–0
+    M(5, 1, 2, 0), // E–A 2–0
+    M(2, 3, 2, 0), // B–C 2–0
+    M(3, 4, 2, 0), // C–D 2–0
   ]);
-  assert.deepEqual(summary(rows), [[1, 'A'], [2, 'B'], [3, 'C'], [4, 'D']]);
-  assert.deepEqual(rows.map((r) => r.goalDiff), [1, 4, 4, -9]);
+  assert.deepEqual(summary(rows), [[1, 'E'], [2, 'A'], [3, 'B'], [4, 'C'], [5, 'D']]);
+  assert.deepEqual(rows.slice(1, 4).map((r) => [r.points, r.goalDiff, r.goalsFor]), [[3, 0, 2], [3, 0, 2], [3, 0, 2]]);
 });
 
 test('ingen kampe spillet endnu → alle 0 point, delt 1. plads, alfabetisk', () => {
